@@ -1,9 +1,9 @@
 'use strict';
 
 const express = require('express');
-const basicAuth = require('../src/auth/auth');
-const users = require('../models/user-model');
-const oauth = require('../src/auth/oauth-middle');
+const basicAuth = require('../middleware/auth');
+const users = require('./model/user-model.js');
+const oauth = require('../middleware/oauth-middle');
 const router = express.Router();
 
 router.get('/auth', oauth, oauthHandler);
@@ -38,8 +38,8 @@ function listUsersHandler(req, res) {
   });
 }
 
-function oauthHandler(req,res){
-  console.log(' route handler');
+function oauthHandler (req, res) {
+  console.log('hello from the route handler');
   res.json({ token: req.token });
 }
 
