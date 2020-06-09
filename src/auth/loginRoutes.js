@@ -4,7 +4,7 @@ const express = require('express');
 const basicAuth = require('../middleware/auth');
 const users = require('./model/user-model.js');
 const oauth = require('../middleware/oauth-middle');
-const bearer = require('../middleware/bearer-middle');
+
 const router = express.Router();
 
 router.get('/auth', oauth, oauthHandler);
@@ -15,13 +15,6 @@ router.post('/test', (req, res) => {
   users.create(req.body).then( result => {
     res.json(result);
   });
-});
-router.get('/protected-route', bearer, (req, res)=> {
-  res.status(200).json(req.user);
-});
-
-router.get('/public-route',(req, res)=> {
-  res.status(200).send('public-route response !! ');
 });
 
 

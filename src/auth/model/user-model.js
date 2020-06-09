@@ -51,7 +51,7 @@ class User {
 
   generateToken(user) {
     try{
-      const token = jwt.sign({ username: user.username }, SECRET);
+      const token = jwt.sign({ username: user.username }, SECRET,{expiresIn:900});  // expire in 900 seconds
       return token;
     }catch (err) {
       return err;
@@ -61,11 +61,10 @@ class User {
     const sc = this.schema;
     return jwt.verify(token, SECRET, async function(err, decoded) {
       if (err) {
-        console.log('err>>> ', err);
+        // console.log('err>>> ', err);
         return Promise.reject(err);
       }
-      console.log('decoded >>>> ',decoded); // {username: usernameValue, ...}
-      // let username =  //decoded['username']; // decoded.username
+      // console.log('decoded >>>> ',decoded); 
       const result = await sc.findOne({ username: decoded.username });
       if (result) {
         return Promise.resolve(decoded);

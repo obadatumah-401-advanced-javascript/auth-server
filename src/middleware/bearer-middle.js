@@ -8,9 +8,7 @@ module.exports = (req, res, next) => {
     next('User is not loggedin');
     return;
   }
-
-  // Bearer tokenvalue
-  console.log('req.headers.authorization >>>> ',req.headers.authorization);
+  //   console.log('req.headers.authorization >>>> ',req.headers.authorization);
   let bearerToken = req.headers.authorization.split(' ').pop();
 
   users.verifyToken(bearerToken)
