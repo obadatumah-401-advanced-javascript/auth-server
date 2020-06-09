@@ -1,22 +1,22 @@
 'use strict';
 
 const superagent = require('superagent');
-const users = require('../../models/user-model');
+const users = require('../auth/model/user-model.js');
 
 module.exports = async (req, res, next) => {
   try {
-    console.log('middleware');
+    console.log('hello from the middleware');
     const code = req.query.code;
-    console.log(code);
+        
     let accessToken = await exchangeCodeForToken(code);
-    console.log(accessToken);
+
     let remoteUserData = await exchangeTokenForUser(accessToken);
-    console.log('middleware3');
+
     let [token, user] = await storeUserToDataBase(remoteUserData);
 
     req.user = user;
     req.token = token;
-    console.log('middleware4');
+
     next();
         
   }
@@ -26,19 +26,16 @@ module.exports = async (req, res, next) => {
 };
 
 async function exchangeCodeForToken(code) {
-  
   const tokenResponse = await superagent.post('https://github.com/login/oauth/access_token')
     .send({
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
       code: code,
-      redirect_uri: process.env.API_SERVER,
+      redirect_uri: process.env.CALLBACK_URI,
       grant_type: 'authorization_code',
     });
-  console.log('fun2');
 
   let access_token = tokenResponse.body.access_token;
-  console.log(access_token);
   return access_token;
 }
 
@@ -54,7 +51,7 @@ async function exchangeTokenForUser(token) {
 async function storeUserToDataBase(user) {
   const newUserRecord = {
     username: user.username,
-    password: 123123,
+    password: 1234,
   };
   let storedUser = users.create(newUserRecord);
   let token = users.generateToken(user);

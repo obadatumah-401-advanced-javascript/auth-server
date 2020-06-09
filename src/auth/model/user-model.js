@@ -1,11 +1,9 @@
 'use strict';
 
-
 const schema = require('./users.schema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const SECRET = process.env.SECRET;
-
 
 class User {
   constructor() {
@@ -19,10 +17,11 @@ class User {
   async create(record) {
     try {
       const result = await this.schema.findOne({ username: record.username });
+      console.log('result', result);
       if (result === null) {
         const newRecord = new this.schema(record);
         newRecord.password = await bcrypt.hash(newRecord.password, 5);
-        console.log('new record >>>>>>>>>>>>>>>>>',newRecord);
+        console.log(newRecord);
         return newRecord.save();
       }
       else {
