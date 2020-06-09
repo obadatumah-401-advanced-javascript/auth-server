@@ -4,6 +4,7 @@ const express = require('express');
 const basicAuth = require('../middleware/auth');
 const users = require('./model/user-model.js');
 const oauth = require('../middleware/oauth-middle');
+
 const router = express.Router();
 
 router.get('/auth', oauth, oauthHandler);

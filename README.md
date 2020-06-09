@@ -14,6 +14,8 @@
 
 ### Tested on swagger inspector
 
+[swagger](https://app.swaggerhub.com/apis/Tumaho/class13/0.1)
+
 ## UML
 
 ![auth](./assets/auth-server.png)
