@@ -8,6 +8,12 @@ const SECRET = process.env.SECRET;
 class User {
   constructor() {
     this.schema = schema;
+    this.roles = {
+      user: ['read'],
+      writer: ['read', 'create'],
+      editor: ['read', 'create', 'update'],
+      admin: ['read', 'create', 'update', 'delete'],
+    };
   }
 
   read() {
@@ -51,7 +57,7 @@ class User {
 
   generateToken(user) {
     try{
-      const token = jwt.sign({ username: user.username }, SECRET,{expiresIn:900});  // expire in 900 seconds
+      const token = jwt.sign({ username: user.username , role:user.role }, SECRET,{expiresIn:900});  // expire in 900 seconds
       return token;
     }catch (err) {
       return err;
